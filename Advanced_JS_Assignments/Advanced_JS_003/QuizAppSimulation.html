@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "PT Sans", sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #c8b6ff, #e7c6ff, #ffd6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: white;
+            gap: 10px;
+        }
+
+        .quiz {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .question {
+            padding: 10px;
+            background-color: #f5f3f4;
+            width: 100%;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .qOptions {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+
+            .options {
+                width: 100%;
+                padding: 10px;
+                background-color: white;
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                font-size: 20px;
+                transition: all ease 0.3s;
+                border: 3px solid transparent;
+                cursor: pointer;
+
+                &:hover {
+                    transform: scale(1.05);
+                    border: 3px solid #c8b6ff;
+                }
+
+                &.correct {
+                    background-color: #70e000;
+                    border: 3px solid #16db65;
+                }
+
+                &.wrong {
+                    background-color: #ef233c;
+                    border: 3px solid #d90429;
+                }
+            }
+        }
+
+        .timer {
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: 8px;
+            border: 3px solid #c8b6ff;
+        }
+
+        #start-quiz-btn {
+            padding: 10px;
+            border-radius: 12px;
+            background-color: #c8b6ff;
+            border: 3px solid transparent;
+            font-size: 18px;
+            font-family: "PT Sans", sans-serif;
+            font-weight: bold;
+            transition: all ease-in 0.3s;
+            cursor: pointer;
+
+            &:hover {
+                background-color: white;
+                border: 3px solid #c8b6ff;
+            }
+        }
+
+        .arc-container {
+            width: 250px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .arc {
+            position: absolute;
+            border-radius: 50%;
+            animation: rotateArc linear infinite;
+            border-style: solid;
+            border-width: 10px;
+        }
+
+        .arc-green {
+            min-width: 200px;
+            min-height: 200px;
+            border-width: 10px;
+            border-color: #66bb6a #66bb6a #66bb6a transparent;
+            animation-duration: 1.5s;
+            animation-delay: 0s;
+        }
+
+        .arc-orange {
+            min-width: 150px;
+            min-height: 150px;
+            border-color: #ffa726 #ffa726 #ffa726 transparent;
+            animation-duration: 2s;
+            animation-delay: -1s;
+        }
+
+        .arc-red {
+            min-width: 100px;
+            min-height: 100px;
+            border-color: #ef5350 #ef5350 #ef5350 transparent;
+            animation-duration: 2.5s;
+            animation-delay: -2s;
+        }
+
+        .arc-purple {
+            min-width: 50px;
+            min-height: 50px;
+            border-color: #8e24aa #8e24aa #8e24aa transparent;
+            animation-duration: 3.5s;
+            animation-delay: -3s;
+        }
+
+        @keyframes rotateArc {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-throws {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex-direction: column;
+            color: black;
+            gap: 5px;
+            background-color: var(--bg-color);
+        }
+
+        .error-throws p {
+            font-size: 64px;
+        }
+
+        #retry-btn {
+            border-radius: 50%;
+            padding: 10px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #c8b6ff;
+            cursor: pointer;
+        }
+
+        #retry-btn img {
+            min-height: 20px;
+            min-width: 20px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to Quiz Application</h1>
+        <div class="quiz">
+            <!-- Dynamically add the elements -->
+        </div>
+        <button id="start-quiz-btn">Start Quiz</button>
+    </div>
+    <script>
+        let questionsCount = 0;
+        let correctAnswer = "";
+        let correctAnswerEle = "";
+        let count = 5;
+        let isAnswered = false;
+
+        const QuizApp = document.querySelector(".quiz");
+        const startQuizBtn = document.getElementById("start-quiz-btn");
+
+        startQuizBtn.addEventListener("click", () => {
+            startQuizBtn.disabled = true;
+            initializeQuiz();
+        });
+
+        function loading() {
+            const arcHolder = createQuizElements("div", "arc-container");
+            arcHolder.appendChild(createQuizElements("div", "arc arc-green"));
+            arcHolder.appendChild(createQuizElements("div", "arc arc-orange"));
+            arcHolder.appendChild(createQuizElements("div", "arc arc-red"));
+            arcHolder.appendChild(createQuizElements("div", "arc arc-purple"));
+            QuizApp.appendChild(arcHolder);
+        }
+
+        function createQuizElements(tag, classes = "", id = "", text = "", source = "", alt = "") {
+            const element = document.createElement(tag);
+            if (classes) element.className = classes;
+            if (id) element.id = id;
+            if (source) {
+                element.src = source;
+                element.alt = alt;
+            }
+            if (text) element.innerHTML = text;
+            return element;
+        }
+
+        async function getQuizData() {
+            clearElements();
+            loading();
+            questionsCount++;
+            const URL = `https://opentdb.com/api.php?amount=20&category=${Math.random() > 0.5 ? 17 : 18}&type=multiple`;
+            return await fetch(URL).then(res => res.json()).then((data => data.results[questionsCount])).catch(err => err);
+        }
+
+        function checkAnswer(choosenOption) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            if (choosenOption.innerText === correctAnswer) {
+                choosenOption.classList.add("correct");
+            }
+            else {
+                choosenOption.classList.add("wrong");
+                correctAnswerEle.classList.add("correct");
+            }
+        }
+
+        function initializeQuiz() {
+            if (questionsCount === 5) {
+                clearElements();
+                startQuizBtn.disabled = false;
+                return;
+            }
+            isAnswered = false;
+            count = 5;
+            clearElements();
+            loading();
+            getQuizData().then((quiz) => {
+                clearElements();
+                const quest = createQuizElements("div", "question");
+                quest.appendChild(createQuizElements("h1", "", "", quiz.question));
+                correctAnswer = quiz.correct_answer;
+                let options = [...quiz.incorrect_answers, correctAnswer];
+                let shuffle = options.sort(() => Math.random() - 0.5);
+
+                const optionsElement = createQuizElements("div", "qOptions");
+                shuffle.forEach(ele => {
+                    let optionDiv = createQuizElements("div", "options", "", ele);
+                    optionsElement.appendChild(optionDiv);
+                    if (ele === correctAnswer) {
+                        correctAnswerEle = optionsElement.lastChild;
+                    }
+                    optionDiv.addEventListener("click", () => checkAnswer(optionDiv));
+                });
+
+                const timer = createQuizElements("div", "timer");
+                timer.innerText = count;
+                let counterInterval = setInterval(() => {
+                    timer.innerText = count--;
+                    if (count < 0) {
+                        clearInterval(counterInterval);
+                        initializeQuiz();
+                    }
+                }, 1000);
+
+                QuizApp.appendChild(quest);
+                QuizApp.appendChild(optionsElement);
+                QuizApp.appendChild(timer);
+            }).catch(() => {
+                errorOnLoading();
+            });
+        }
+
+        function clearElements() {
+            while (QuizApp.firstChild)
+                QuizApp.removeChild(QuizApp.firstChild);
+        }
+
+        function errorOnLoading() {
+            const errorThows = createQuizElements("div", "error-throws");
+            errorThows.appendChild(createQuizElements("p", "", "", "⚠️"));
+            errorThows.appendChild(createQuizElements("h2", "", "", "Oops! Something went wrong. Try again!"));
+
+            const retryBtn = createQuizElements("div", "btn", "retry-btn");
+            retryBtn.appendChild(createQuizElements("img", "", "", "", "Images/icon-retry.svg", "retry icon"));
+
+            errorThows.appendChild(retryBtn);
+            QuizApp.appendChild(errorThows);
+            retryBtn.addEventListener("click", () => {
+                clearElements();
+                initializeQuiz();
+            });
+        }
+    </script>
+</body>
+
+</html>

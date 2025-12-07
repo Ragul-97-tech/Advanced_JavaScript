@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+    <script src="WeatherApp.js" defer></script>
+    <link rel="stylesheet" href="WeatherApp.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <ul>
+                <li>
+                    <img src="images/logo.svg" alt="logo-image">
+                </li>
+                <li>
+                    <div class="unit-selection">
+                        <img src="images/icon-units.svg" alt="units-image">
+                        <span>Units</span>
+                    </div>
+                </li>
+            </ul>
+        </header>
+        <div class="welcome-input-group">
+            <h1>How's the sky looking today</h1>
+            <div class="input-group">
+                <div class="search-box">
+                    <img src="images/icon-search.svg" alt="search-icon">
+                    <input type="search" name="search" id="input-search" placeholder="Search for a place..." autocomplete="off" value="surandai">
+                </div>
+                <button id="search-btn" class="btn">Search</button>
+            </div>
+        </div>
+        <main id="today-weather" class="today-weather">
+            <div class="today-report">
+                <!-- dynamically -->
+            </div>
+            <div class="report-more-info">
+                <div class="more-info">
+                    <p>Feels Like</p>
+                    <h1 id="feelsLike">_</h1>
+                </div>
+                <div class="more-info">
+                    <p>Humidity</p>
+                    <h1 id="humidity">_</h1>
+                </div>
+                <div class="more-info">
+                    <p>Wind</p>
+                    <h1 id="windSpeed">_</h1>
+                </div>
+                <div class="more-info">
+                    <p>Precipitation</p>
+                    <h1 id="precipitation">_</h1>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

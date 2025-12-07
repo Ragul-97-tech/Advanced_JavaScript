@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sansita:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="FlightTracker.js" defer></script>
+    <link rel="stylesheet" href="FlightTracker.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to Flight Tracking App</h1>
+        <div class="input-group">
+            <div class="search-box">
+                <img src="images/icon-search.svg" alt="search-icon">
+                <input type="search" name="search" id="input-search" placeholder="Search for a place..."
+                    autocomplete="off">
+            </div>
+            <button id="search-btn" class="btn">Search</button>
+            <button id="show-all" class="btn">Show all</button>
+        </div>
+        <main id="available-flights" class="flights-grid">
+            <!-- dynamically import -->
+        </main>
+    </div>
+</body>
+
+</html>

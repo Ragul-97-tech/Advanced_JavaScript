@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffea00, #ffdd00);
+            min-height: 100vh;
+            padding: 20px;
+            font-size: 16px;
+            font-family: "Noto Sans", sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .container>h1 {
+            margin: 10px 0;
+            font-weight: 300;
+            font-size: 40px;
+        }
+
+        .img-progress {
+            max-width: 700px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        .img-holder {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            max-width: 60px;
+            width: 100%;
+            background-color: #fdc500;
+            padding: 8px;
+            margin: 0 8px;
+        }
+
+        .img-holder img {
+            object-fit: contain;
+            width: 100%;
+            border-radius: 50%;
+        }
+
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: #1f1f1f;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #70e000;
+            transition: width 0.2s linear;
+        }
+
+        .progress-report {
+            padding: 16px;
+            border-radius: 10px;
+            border: 3px solid #fdc500;
+            background-color: white;
+            max-width: 500px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+            width: 100%;
+            gap: 20px;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 12px;
+            border-radius: 8px;
+            background: #fdc500;
+            border: 3px solid #fdc500;
+            color: #1f1f1f;
+            font-family: "Noto Sans", sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all ease-out 0.3s;
+        }
+
+        .progress-report p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            transition: all ease-in 0.3s;
+        }
+
+        .progress-report p.success {
+            font-weight: bold;
+            color: #70e000;
+        }
+
+        .progress-report p.success::before {
+            content: "✔";
+            color: #70e000;
+        }
+
+        .in-progress {
+            padding: 16px;
+            border-radius: 10px;
+            border: 3px solid #fdc500;
+            background-color: white;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .in-progress p {
+            color: #fdc500;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            border: 3px solid #fdc500;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Online Shopping Cart</h1>
+        <section class="img-progress">
+            <div class="img-holder"><img src="Images/shopping_cart.svg" alt="CartImage"></div>
+            <div class="progress">
+                <div class="progress-bar" id="p1"></div>
+            </div>
+            <div class="img-holder"><img src="Images/payments.svg" alt="PaymentImage"></div>
+            <div class="progress">
+                <div class="progress-bar" id="p2"></div>
+            </div>
+            <div class="img-holder"><img src="Images/receipt.svg" alt="ReceiptImage"></div>
+            <div class="progress">
+                <div class="progress-bar" id="p3"></div>
+            </div>
+            <div class="img-holder"><img src="Images/delivery_truck.svg" alt="DeliveryImage"></div>
+        </section>
+        <section class="in-progress">
+            <p></p>
+        </section>
+        <section class="progress-report"></section>
+        <section class="btn-group">
+            <button class="btn" id="shopThen">Shop(.then())</button>
+            <button class="btn" id="shopAsync">Shop(.asyn())</button>
+        </section>
+    </div>
+    <script>
+        const shopThen = document.getElementById("shopThen");
+        const shopAsync = document.getElementById("shopAsync");
+        const progressReport = document.querySelector(".progress-report");
+        const progressAware = document.querySelector(".in-progress p");
+
+        shopThen.addEventListener("click", () => {
+            progressReport.innerHTML="";
+            orderProduct();
+        });
+
+        shopAsync.addEventListener("click", () => {
+            progressReport.innerHTML="";
+            orderProductAwait();
+        });
+
+        function progressBar(proId) {
+            const bar = document.getElementById(proId);
+            let progress = 0;
+            bar.style.width = "0%";
+            console.log(bar.style.width);
+
+            let interval = setInterval(() => {
+                progress += Math.random()*4 + 8;
+                if (progress > 100) progress = 100;
+                bar.style.width = progress + "%";
+
+                if (progress >= 100)
+                    clearInterval(interval);
+            }, 10);
+        }
+
+        function addToCart() {
+            return new Promise((resolve) => {
+                progressAware.textContent = "Product Adding to cart..."; 
+                setTimeout(() => {
+                    progressBar("p1");
+                    resolve("Product Added to cart");
+                    const createPTag = document.createElement("p");
+                    createPTag.className = "success";
+                    createPTag.innerText = "Product Added to cart";
+                    progressReport.appendChild(createPTag);
+                }, 1000);
+            })
+        }
+
+        function makePay() {
+            return new Promise((resolve) => {
+                progressAware.textContent = "Payment is creating..."; 
+                setTimeout(() => {
+                    progressBar("p2");
+                    resolve("Payment is created");
+                    const createPTag = document.createElement("p");
+                    createPTag.className = "success";
+                    createPTag.innerText = "Payment is created";
+                    progressReport.appendChild(createPTag);
+                }, 2000)
+            })
+        }
+
+        function invoice() {
+            return new Promise((resolve) => {
+                progressAware.textContent = "Invoice bill generating..."; 
+                setTimeout(() => {
+                    progressBar("p3");
+                    resolve("Invoice bill is generated");
+                    const createPTag = document.createElement("p");
+                    createPTag.className = "success";
+                    createPTag.innerText = "Invoice bill is generated";
+                    progressReport.appendChild(createPTag);
+                }, 1000)
+            })
+        }
+
+        function shipProduct() {
+            return new Promise((resolve) => {
+                progressAware.textContent = "Product is shipping...";
+                resolve("Product is shipped");
+                const createPTag = document.createElement("p");
+                createPTag.className = "success";
+                createPTag.innerText = "Product is shipped";
+                progressReport.appendChild(createPTag);
+            })
+        }
+
+        function orderProduct() {
+            addToCart().then((result) => {
+                // progressReport.appendChild(createPTag);
+                return makePay();
+            }).then((result) => {
+                // progressReport.appendChild(createPTag);
+                return invoice();
+            }).then((result) => {
+                // progressReport.appendChild(createPTag);
+                return shipProduct();
+            }).then((result) => {
+                // progressReport.appendChild(createPTag);
+            }).catch((err) => {
+                console.log("Error on making dish: ", err);
+            });
+        }
+
+        async function orderProductAwait() {
+            console.log("Async and await on cooking dishes")
+            console.log(await addToCart());
+            console.log(await makePay());
+            console.log(await invoice());
+            console.log(await shipProduct());
+        }
+    </script>
+</body>
+
+</html>

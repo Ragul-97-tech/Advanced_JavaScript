@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Smooch Sans", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5ebe0, #e3d5ca);
+    font-family: "Smooch Sans", sans-serif;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+.project {
+    background-color: wheat;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+    margin-bottom: 20px;
+}
+
+.project-box {
+    background-color: #ffd;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    margin: 5px 0;
+}
+
+.title {
+    margin: 10px 0;
+}
+
+.dot.active {
+    background-color: lightgreen;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.dot.reject {
+    background-color: red;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background-color: wheat;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px 0;
+    border: 2px solid transparent;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: lightgreen;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: wheat;
+    gap: 20px;
+    border-radius: 8px;
+}
+
+.btn {
+    flex-grow: 1;
+    padding: 16px 32px;
+    width: 140px;
+    background-color: skyblue;
+    border: none;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 15px;
+    text-align: center;
+    background-color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.project-box.success {
+    background-color: lightgreen;
+    transition: all ease-in 0.3s;
+    border: 2px solid greenyellow;
+}
+
+.project-box.reject {
+    background-color: lightcoral;
+    transition: all ease-in 0.3s;
+    border: 2px solid red;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="Advanced_JS_Assignment_000.js" defer></script>
+    <link rel="stylesheet" href="Advanced_JS_Assignment_000.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <h2>Where in the world?</h2>
+                </li>
+                <li>
+                    <div class="dark-mode-toggle">
+                        <img src="moon_star.svg" alt="dark mode icon">
+                        <button>Dark Mode</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="input-group">
+            <div class="search-box">
+                <img src="icon-search.svg" alt="search icon">
+                <input type="text" placeholder="Search for a country..." autocomplete="off">
+            </div>
+            <div>
+                <select>
+                    <option value="" disabled selected>Filter by Region</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Americas">Americas</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europe</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
+            </div>
+        </div>
+        <div id="flags-container">
+            <!-- Flag elements will be dynamically inserted here -->
+        </div>
+    </main>
+</body>
+</html>
