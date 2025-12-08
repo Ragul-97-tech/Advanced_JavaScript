@@ -1,0 +1,22 @@
+{
+  "name": "node_js_assignments",
+  "version": "1.0.0",
+  "description": "class",
+  "license": "ISC",
+  "author": "Ragul",
+  "type": "module",
+  "main": "Node_JS_000.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ../Node_JS_Learning/Node.js"
+  },
+  "keywords": [],
+  "dependencies": {
+    "axios": "^1.13.2",
+    "chalk": "^5.6.2",
+    "colour": "^0.7.1",
+    "cowsay": "^1.6.0",
+    "postman-request": "^2.88.1-postman.46",
+    "yargs": "^18.0.0"
+  }
+}
